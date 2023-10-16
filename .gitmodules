@@ -1,10 +1,12 @@
 [submodule "spark-cassandra-connector"]
 	path = spark-cassandra-connector
-	url = https://github.com/scylladb/spark-cassandra-connector
-	branch = feature/track-token-ranges
+	url = https://github.com/adRise/spark-cassandra-connector
+	branch = new-3.0
 [submodule "spark-dynamodb"]
 	path = spark-dynamodb
-	url = https://github.com/scylladb/spark-dynamodb
+	url = https://github.com/adRise/spark-dynamodb
+	branch = new-3.0
 [submodule "spark-kinesis"]
 	path = spark-kinesis
-	url = https://github.com/scylladb/spark-kinesis
+	url = https://github.com/adRise/spark-kinesis
+	branch = new-3.0
