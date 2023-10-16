@@ -1,13 +1,14 @@
 import sbt.librarymanagement.InclExclRule
+val sparkVersion = "3.1.2"
 
 lazy val root = (project in file(".")).settings(
   inThisBuild(
     List(
       organization := "com.scylladb",
-      scalaVersion := "2.11.12"
+      scalaVersion := "2.12.12"
     )),
   name      := "scylla-migrator",
-  version   := "0.0.1",
+  version   := "0.0.2.disable_savepoint",
   mainClass := Some("com.scylladb.migrator.Migrator"),
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
   javaOptions ++= Seq(
@@ -20,9 +21,9 @@ lazy val root = (project in file(".")).settings(
   fork                      := true,
   scalafmtOnCompile         := true,
   libraryDependencies ++= Seq(
-    "org.apache.spark" %% "spark-streaming"      % "2.4.4" % "provided",
-    "org.apache.spark" %% "spark-sql"            % "2.4.4" % "provided",
-    "org.apache.spark" %% "spark-sql"            % "2.4.4" % "provided",
+    "org.apache.spark" %% "spark-streaming"      % sparkVersion % "provided",
+    "org.apache.spark" %% "spark-sql"            % sparkVersion % "provided",
+    "org.apache.spark" %% "spark-sql"            % sparkVersion % "provided",
     "com.amazonaws"    % "aws-java-sdk-sts"      % "1.11.728",
     "com.amazonaws"    % "aws-java-sdk-dynamodb" % "1.11.728",
     ("com.amazonaws" % "dynamodb-streams-kinesis-adapter" % "1.5.2")
@@ -39,6 +40,8 @@ lazy val root = (project in file(".")).settings(
     ShadeRule.rename("com.typesafe.scalalogging.**" -> "shade.com.typesafe.scalalogging.@1").inAll,
   ),
   assemblyMergeStrategy in assembly := {
+    case PathList("module-info.class") => MergeStrategy.first
+    case path if path.endsWith("/module-info.class") => MergeStrategy.first
     case PathList("org", "joda", "time", _ @_*)                       => MergeStrategy.first
     case PathList("org", "apache", "commons", "logging", _ @_*)       => MergeStrategy.first
     case PathList("com", "fasterxml", "jackson", "annotation", _ @_*) => MergeStrategy.first
