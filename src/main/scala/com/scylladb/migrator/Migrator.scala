@@ -181,7 +181,8 @@ object Migrator {
     } finally {
       tokenRangeAccumulator.foreach(dumpAccumulatorState(migratorConfig, _, "final"))
       scheduler.shutdown()
-      spark.stop()
+      // comment out this line, otherwse the SparkJarTask in DBR would faill while SparkSubmitTask would NOT.
+      // spark.stop()
     }
   }
 
